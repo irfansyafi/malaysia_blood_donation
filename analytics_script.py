@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 import os
+import matplotlib.pyplot as plt
 logging.getLogger().setLevel(logging.INFO)
 
 donation_facilities_url = "https://raw.githubusercontent.com/MoH-Malaysia/data-darah-public/main/donations_facility.csv"
@@ -60,7 +61,6 @@ change_dataframe_timeindex(newdonors_state_updated)
 
 # Transform data and visualization for yearly total donation on each blood type
 
-import matplotlib.pyplot as plt
 oldest_date = donation_state_updated.index.min()
 newest_date = donation_state_updated.index.max()
 print(oldest_date)
@@ -78,6 +78,36 @@ plt.title("Yearly Blood Donation Trends")
 plt.xlabel("Year")
 plt.ylabel("Total Blood Donation Count")
 plt.legend()
+plt.show()
+
+# Plotting graph for the states trend from 2019 - 2024 
+column_used = ['state','total']
+newdf = newdonors_state_updated[column_used]
+latest_date = newdf.index.max()
+from_date = '2019-01'
+
+sliced_newdf = newdf[(newdf.index >= from_date) & (newdf.index <= latest_date)]
+
+grouped_sliced_newdf = sliced_newdf.groupby(['state', pd.Grouper(freq='M')])['total'].sum().reset_index()
+grouped_sliced_newdf.set_index(grouped_sliced_newdf['date'],inplace=True)
+
+state_in_malaysia = grouped_sliced_newdf['state'].unique()
+state_in_malaysia = list(state_in_malaysia)
+state_in_malaysia.remove('Malaysia')
+print(state_in_malaysia)
+
+pivoted_grouped_sliced_newdf = grouped_sliced_newdf.pivot(columns='state', values='total')
+print(pivoted_grouped_sliced_newdf)
+
+fig, ax = plt.subplots(figsize=(12, 8))
+for state in state_in_malaysia:
+    pivoted_grouped_sliced_newdf[state].plot(marker='o', label=state)
+
+
+ax.set_title("Monthly Blood Donation Trends by State (2019-2023)")
+ax.set_xlabel("Year")
+ax.set_ylabel("Number of Donations")
+ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.show()
 
 

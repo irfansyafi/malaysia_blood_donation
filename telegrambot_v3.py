@@ -2,7 +2,7 @@ import telebot
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
-from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person
+from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person,state_in_malaysia,pivoted_grouped_sliced_newdf
 from io import BytesIO
 from dotenv import load_dotenv
 from datetime import datetime
@@ -25,7 +25,8 @@ def analytic_graph(message):
         timestamp = datetime.now().strftime("%Y%m%d")
 
         try:
-            fig, ax = plt.subplots()
+            # For Blood Retention based on Age Categories
+            fig, ax = plt.subplots(figsize=(12, 8))
             ax.bar(blood_donation_grouped.index, pd.to_numeric(blood_donation_grouped['age']))
             ax.set_title("Total blood donation retention based on Age Categories ")
             ax.set_xlabel("Age Categories")
@@ -41,6 +42,27 @@ def analytic_graph(message):
             with open(filepath_age_category, 'rb') as age_photo:
                 bot_.send_photo(CHAT_ID, age_photo)
 
+            # For States trend (Monthly)
+            for state in state_in_malaysia:
+                pivoted_grouped_sliced_newdf[state].plot(marker='o', label=state)
+
+            ax.set_title("Monthly Blood Donation Trends by State (2019-2023)")
+            ax.set_xlabel("Year")
+            ax.set_ylabel("Number of Donations")
+            ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+            plt.show()
+            
+            filename_state_trend = f'state_trend_monthly_{timestamp}.png'
+            filepath_state_trend = os.path.join(GRAPH_PIC_FOLDER, filename_state_trend)
+
+            plt.savefig(filepath_state_trend, format='png', facecolor='white')
+            plt.clf()
+
+            bot_.send_message(CHAT_ID, "This is the for every state in Malaysia from 2019 till today (Monthly)")
+            with open(filepath_state_trend, 'rb') as statetrend_photo:
+                bot_.send_photo(CHAT_ID, statetrend_photo)
+            
+            # For blood type trend
             donation_state_updated_resampled['blood_a'].plot(label='Blood Type A', color='red')
             donation_state_updated_resampled['blood_ab'].plot(label='Blood Type AB', color='green')
             donation_state_updated_resampled['blood_b'].plot(label='Blood Type B', color='blue')
