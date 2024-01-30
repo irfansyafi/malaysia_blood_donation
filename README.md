@@ -22,3 +22,8 @@ Future work recommendation:
 1. Explore on the usage of duckdb for managing multiple data sources instead of a csv file.
 2. Explore on the usage of cloud computing to leveraging Data Lake and Data Warehouse.
 3. Automation process where the code will run if there is changes from the data source. Currently, we can run daily and changes made will store in a csv file to save credit from using Cloud Computing services.
+4. More analysis that can done that would improve and help decision-maker.
+   For example:
+   1) Which facilities or hospital that have lesser people donating blood?
+   2) Seasonal analysis regarding blood donation. When do people always go out for blood donation?
+   3) Which facilities that have no blood donation? Is it because there is no facilities provided for the hospital to conduct blood transfer from donators?
