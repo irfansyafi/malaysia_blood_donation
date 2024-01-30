@@ -8,12 +8,12 @@ Working files ?
 
 How this repo work?
 
-1. Run the telegrambot_v3.py script then the code will use the analytics_script.py.
-2. The telegram will be active.
-3. The telegram bot are added in the Malaysia Blood Analytics
+1. Run the telegrambot_v3.py script then the code will use the analytics_script.py
+2. The telegram will be active. The telegrambot will save the image of the plot into local folder (graph_pic)
+3. The telegram bot are already added in the Malaysia Blood Analytics. You can add it into your own group.
 4. Send command through the group /start and /plot.
 5. The telegrambot_v3.py script will send 3 plot on:
-   - Total blood donation retention based on age categories
+   - Total blood donation retention based on age categories (This may due to campaign done by company to encourage blood donation. Hence, why most of the age between 30-34 (Working adults) donates more than others.
    - The trend of blood donation from 2019-2024 for each states in Malaysia (Monthly)
    - The trend of blood_type over time.
 6. Everyday, at around 8-10 am there will be updated from the sources. The script might be run on windows scheduler around 8-10 am
