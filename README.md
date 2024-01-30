@@ -1,5 +1,10 @@
 # malaysia_blood_donation
 This is the repo for blood donation that I obtain from https://github.com/MoH-Malaysia
+Can adapt this code to your bot, insert your own telegram TOKEN API KEY and CHAT_ID into your own .env file 
+
+Working files ?
+1. analytics_script.py
+2. telegrambot_v3.py
 
 How this repo work?
 
