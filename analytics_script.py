@@ -99,6 +99,14 @@ print(state_in_malaysia)
 pivoted_grouped_sliced_newdf = grouped_sliced_newdf.pivot(columns='state', values='total')
 print(pivoted_grouped_sliced_newdf)
 
+yesterday_data = pivoted_grouped_sliced_newdf.iloc[-2]
+today_data = pivoted_grouped_sliced_newdf.iloc[-1]
+change_data = today_data - yesterday_data
+
+messages = ""
+for state, change in change_data.items():
+    messages += f"{state}: {change}\n"
+
 fig, ax = plt.subplots(figsize=(12, 8))
 for state in state_in_malaysia:
     pivoted_grouped_sliced_newdf[state].plot(marker='o', label=state)
