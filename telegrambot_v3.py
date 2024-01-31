@@ -2,7 +2,7 @@ import telebot
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
-from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person,state_in_malaysia,pivoted_grouped_sliced_newdf
+from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person,state_in_malaysia,pivoted_grouped_sliced_newdf,messages
 from io import BytesIO
 from dotenv import load_dotenv
 from datetime import datetime
@@ -61,6 +61,8 @@ def analytic_graph(message):
             bot_.send_message(CHAT_ID, "This is the for every state in Malaysia from 2019 till today (Monthly)")
             with open(filepath_state_trend, 'rb') as statetrend_photo:
                 bot_.send_photo(CHAT_ID, statetrend_photo)
+            bot_.send_message(CHAT_ID, "CHANGES OF THE DATA FROM YESTERDAY")
+            bot_.send_message(CHAT_ID, messages)
 
             # For blood type trend
             fig, ax = plt.subplots()
