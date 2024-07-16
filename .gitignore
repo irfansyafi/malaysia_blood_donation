@@ -3,6 +3,7 @@
 *.db
 graph_pic
 __pycache__
+virt
 
 # Compiled source #
 ###################
