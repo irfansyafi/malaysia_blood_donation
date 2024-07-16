@@ -2,7 +2,7 @@ import telebot
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
-from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person,state_in_malaysia,pivoted_grouped_sliced_newdf,messages
+from analytics_script import blood_donation_grouped, donation_state_updated_resampled, average_per_person,state_in_malaysia,pivoted_grouped_sliced_newdf,messages,messages
 from io import BytesIO
 from dotenv import load_dotenv
 from datetime import datetime

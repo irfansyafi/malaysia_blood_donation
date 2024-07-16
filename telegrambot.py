@@ -1,3 +1,0 @@
-import telegram
-import telegrambot
-
