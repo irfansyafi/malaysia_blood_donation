@@ -80,21 +80,44 @@ plt.ylabel("Total Blood Donation Count")
 plt.legend()
 plt.show()
 
-# Plotting graph for the states trend from 2019 - 2024 
-column_used = ['state','total']
-newdf = newdonors_state_updated[column_used]
-latest_date = newdf.index.max()
-from_date = '2019-01'
+# # Plotting graph for the states trend from 2019 - 2024 
+# column_used = ['state','total']
+# newdf = newdonors_state_updated[column_used]
+# latest_date = newdf.index.max()
+# from_date = '2019-01-01'
 
-sliced_newdf = newdf[(newdf.index >= from_date) & (newdf.index <= latest_date)]
+# sliced_newdf = newdf[(newdf.index >= from_date) & (newdf.index <= latest_date)]
+
+# grouped_sliced_newdf = sliced_newdf.groupby(['state', pd.Grouper(freq='M')])['total'].sum().reset_index()
+# grouped_sliced_newdf.set_index(grouped_sliced_newdf['date'],inplace=True)
+
+# state_in_malaysia = grouped_sliced_newdf['state'].unique()
+# state_in_malaysia = list(state_in_malaysia)
+# state_in_malaysia.remove('Malaysia')
+# print(state_in_malaysia)
+
+# pivoted_grouped_sliced_newdf = grouped_sliced_newdf.pivot(columns='state', values='total')
+# print(pivoted_grouped_sliced_newdf)
+
+# Assuming 'date' is in the index, change it if necessary
+column_used = ['state', 'total']
+newdf = newdonors_state_updated[column_used]
+
+# Set a valid from_date and adjust the date format if necessary
+from_date = '2019-01-01'
+
+# Filter DataFrame to include only valid date values
+valid_dates = newdf.index.isin(pd.to_datetime(newdf.index, errors='coerce'))
+filtered_data = newdf[valid_dates]
+
+sliced_newdf = filtered_data[(filtered_data.index >= from_date)]
 
 grouped_sliced_newdf = sliced_newdf.groupby(['state', pd.Grouper(freq='M')])['total'].sum().reset_index()
-grouped_sliced_newdf.set_index(grouped_sliced_newdf['date'],inplace=True)
+grouped_sliced_newdf.set_index(grouped_sliced_newdf['date'], inplace=True)
 
 state_in_malaysia = grouped_sliced_newdf['state'].unique()
 state_in_malaysia = list(state_in_malaysia)
 state_in_malaysia.remove('Malaysia')
-print(state_in_malaysia)
 
 pivoted_grouped_sliced_newdf = grouped_sliced_newdf.pivot(columns='state', values='total')
 print(pivoted_grouped_sliced_newdf)
@@ -105,6 +128,8 @@ change_data = today_data - yesterday_data
 
 messages = ""
 for state, change in change_data.items():
+    if state == "Malaysia":
+        continue
     messages += f"{state}: {change}\n"
 
 fig, ax = plt.subplots(figsize=(12, 8))
